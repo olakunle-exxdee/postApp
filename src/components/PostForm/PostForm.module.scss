@@ -1,0 +1,22 @@
+.formContent {
+  width: 100%;
+  max-width: 800px;
+  font-size: 1.4em;
+  padding: 0.8em;
+  min-height: 6em;
+  border: 2px solid grey;
+  margin-bottom: 1em;
+  font-family: "DM Sans", sans-serif;
+}
+
+.formBtn {
+  padding: 0.75em;
+  background-color: blueviolet;
+  color: whitesmoke;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  text-transform: uppercase;
+  font-family: "DM Sans", sans-serif;
+  display: block;
+}

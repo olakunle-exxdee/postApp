@@ -6,11 +6,18 @@ import Bio from "../components/Bio/Bio";
 import { useAuth } from "../hooks/useAuth";
 import { useEffect, useState } from "react";
 import { getAllPosts, createPost } from "../lib/allPosts";
+import { FaMoon } from "react-icons/fa";
+import { FiSun } from "react-icons/fi";
 
 export default function Home({ posts: defaultPosts }) {
   const { user, logIn, logOut } = useAuth();
 
   const [posts, updatePost] = useState(defaultPosts);
+  const [theme, setTheme] = useState("light");
+  const nextTheme = theme === "light" ? "dark" : "light";
+  useEffect(() => {
+    document.body.dataset.theme = theme;
+  }, [theme]);
 
   const postSorted = posts.sort(function (a, b) {
     return new Date(b.date) - new Date(a.date);
@@ -28,20 +35,33 @@ export default function Home({ posts: defaultPosts }) {
   return (
     <div className={styles.container}>
       <Head>
-        <title>Create Next App</title>
+        <title>Post App</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      {!user && (
-        <p>
-          <button onClick={logIn}>login</button>
-        </p>
-      )}
-      {user && (
-        <p>
-          <button onClick={logOut}>logout</button>
-        </p>
-      )}
+      <nav className={styles.navbar}>
+        <div>
+          {!user && (
+            <p>
+              <button className={styles.login} onClick={logIn}>
+                login
+              </button>
+            </p>
+          )}
+          {user && (
+            <p>
+              <button className={styles.login} onClick={logOut}>
+                logout
+              </button>
+            </p>
+          )}
+        </div>
+        <div>
+          <button className={styles.change} onClick={() => setTheme(nextTheme)}>
+            {theme === "light" ? <FiSun /> : <FaMoon className={styles.moon} />}
+          </button>
+        </div>
+      </nav>
 
       <main className={styles.main}>
         <Bio

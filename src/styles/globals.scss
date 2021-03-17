@@ -3,7 +3,20 @@ html,
 body {
   padding: 0;
   margin: 0;
-  font-family: "DM Sans", sans-serif !important;
+  font-family: "DM Sans", sans-serif;
+  color: var(--colors-primary);
+  background-color: var(--colors-background);
+}
+
+body[data-theme="light"] {
+  --colors-primary: #000000;
+  --colors-background: white;
+  --color-btn: #4169e1;
+}
+body[data-theme="dark"] {
+  --colors-primary: #d9d9d9;
+  --colors-background: #000000;
+  --color-btn: #88a3f5;
 }
 
 a {

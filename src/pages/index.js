@@ -12,11 +12,6 @@ import { FiSun } from "react-icons/fi";
 export default function Home({ posts: defaultPosts }) {
   const { user, logIn, logOut } = useAuth();
 
-  console.log("user=======", user);
-
-  // user.user_metadata.avatar_url
-  // user.user_metadata.full_name
-
   const [posts, updatePost] = useState(defaultPosts);
   const [theme, setTheme] = useState("light");
   const nextTheme = theme === "light" ? "dark" : "light";
@@ -50,6 +45,7 @@ export default function Home({ posts: defaultPosts }) {
             {theme === "light" ? <FiSun /> : <FaMoon className={styles.moon} />}
           </button>
         </div>
+        <h1>Post App</h1>
         <div>
           {!user && (
             <p>

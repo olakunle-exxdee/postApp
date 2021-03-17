@@ -24,5 +24,3 @@ export function logOut(callback) {
     callback();
   });
 }
-
-console.log(auth.currentUser);

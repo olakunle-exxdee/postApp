@@ -69,10 +69,12 @@ export default function Home({ posts: defaultPosts }) {
       </nav>
 
       <main className={styles.main}>
-        <Bio
-          headshot={user.user_metadata.avatar_url}
-          name={user.user_metadata.full_name}
-        />
+        {user && (
+          <Bio
+            headshot={user.user_metadata.avatar_url}
+            name={user.user_metadata.full_name}
+          />
+        )}
 
         <ul className={styles.posts}>
           {postSorted.map((post) => {

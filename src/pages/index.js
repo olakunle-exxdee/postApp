@@ -82,6 +82,4 @@ export async function getStaticProps() {
       posts: [],
     },
   };
-
-  return;
 }

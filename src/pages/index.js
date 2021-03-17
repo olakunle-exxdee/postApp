@@ -12,6 +12,11 @@ import { FiSun } from "react-icons/fi";
 export default function Home({ posts: defaultPosts }) {
   const { user, logIn, logOut } = useAuth();
 
+  console.log("user=======", user);
+
+  // user.user_metadata.avatar_url
+  // user.user_metadata.full_name
+
   const [posts, updatePost] = useState(defaultPosts);
   const [theme, setTheme] = useState("light");
   const nextTheme = theme === "light" ? "dark" : "light";
@@ -41,6 +46,11 @@ export default function Home({ posts: defaultPosts }) {
 
       <nav className={styles.navbar}>
         <div>
+          <button className={styles.change} onClick={() => setTheme(nextTheme)}>
+            {theme === "light" ? <FiSun /> : <FaMoon className={styles.moon} />}
+          </button>
+        </div>
+        <div>
           {!user && (
             <p>
               <button className={styles.login} onClick={logIn}>
@@ -56,19 +66,12 @@ export default function Home({ posts: defaultPosts }) {
             </p>
           )}
         </div>
-        <div>
-          <button className={styles.change} onClick={() => setTheme(nextTheme)}>
-            {theme === "light" ? <FiSun /> : <FaMoon className={styles.moon} />}
-          </button>
-        </div>
       </nav>
 
       <main className={styles.main}>
         <Bio
-          headshot="https://pbs.twimg.com/profile_images/1347599595115868162/dSzyyv9m_400x400.jpg"
-          name="Olakunle Saheed"
-          tagline="Helping others to learn by Doing"
-          role="Frontend Developer"
+          headshot={user.user_metadata.avatar_url}
+          name={user.user_metadata.full_name}
         />
 
         <ul className={styles.posts}>

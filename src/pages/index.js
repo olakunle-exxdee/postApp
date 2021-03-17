@@ -3,14 +3,45 @@ import styles from "../styles/Home.module.scss";
 import Post from "../components/post";
 import PostForm from "../components/PostForm";
 import Bio from "../components/Bio/Bio";
+import { useAuth } from "../hooks/useAuth";
+import { useEffect, useState } from "react";
+import { getAllPosts, createPost } from "../lib/allPosts";
 
-export default function Home() {
+export default function Home({ posts: defaultPosts }) {
+  const { user, logIn, logOut } = useAuth();
+
+  const [posts, updatePost] = useState(defaultPosts);
+
+  const postSorted = posts.sort(function (a, b) {
+    return new Date(b.date) - new Date(a.date);
+  });
+
+  async function handleSubmit(data, e) {
+    e.preventDefault();
+
+    await createPost(data);
+
+    const posts = await getAllPosts();
+    updatePost(posts);
+  }
+
   return (
     <div className={styles.container}>
       <Head>
         <title>Create Next App</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+
+      {!user && (
+        <p>
+          <button onClick={logIn}>login</button>
+        </p>
+      )}
+      {user && (
+        <p>
+          <button onClick={logOut}>logout</button>
+        </p>
+      )}
 
       <main className={styles.main}>
         <Bio
@@ -21,37 +52,36 @@ export default function Home() {
         />
 
         <ul className={styles.posts}>
-          <li>
-            <Post
-              content=" I am working in figma trying to design a new website that shows
-              all of my tweets"
-              date="13/03/2021"
-            />
-          </li>
-          <li>
-            <Post
-              content=" I am working in figma trying to design a new website that shows
-              all of my tweets"
-              date="13/03/2021"
-            />
-          </li>
-          <li>
-            <Post
-              content=" I am working in figma trying to design a new website that shows
-              all of my tweets"
-              date="13/03/2021"
-            />
-          </li>
-          <li>
-            <Post
-              content=" I am working in figma trying to design a new website that shows
-              all of my tweets"
-              date="13/03/2021"
-            />
-          </li>
+          {postSorted.map((post) => {
+            const { id, content, date } = post;
+
+            return (
+              <li key={id}>
+                <Post
+                  content={content}
+                  date={new Intl.DateTimeFormat("en-US", {
+                    dateStyle: "short",
+                    timeStyle: "short",
+                  }).format(new Date(date))}
+                />
+              </li>
+            );
+          })}
         </ul>
-        <PostForm />
+        {user && <PostForm onSubmit={handleSubmit} />}
       </main>
     </div>
   );
+}
+
+export async function getStaticProps() {
+  const posts = await getAllPosts();
+
+  return {
+    props: {
+      posts,
+    },
+  };
+
+  return;
 }

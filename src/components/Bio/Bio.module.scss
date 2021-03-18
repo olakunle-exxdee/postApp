@@ -21,9 +21,12 @@
 
 .bioContentName {
   font-weight: 900;
-  font-size: 52px;
+  font-size: 32px;
   color: var(--color-btn);
   margin: 0;
+  @media only screen and (min-width: 500px) {
+    font-size: 52px;
+  }
 }
 
 .bioContentTagline {
